@@ -46,8 +46,9 @@
       arm_target_interface_type="SWD"
       arm_target_loader_applicable_loaders="Flash"
       arm_target_loader_default_loader="Flash"
-      c_user_include_directories="$(ProjectDir)/app/inc"
+      c_user_include_directories="$(ProjectDir)/app/inc;$(ProjectDir)/yss/inc"
       debug_register_definition_file="$(DeviceRegisterDefinitionFile)"
+      gcc_cplusplus_language_standard="c++11"
       gcc_entry_point="Reset_Handler"
       linker_memory_map_file="$(DeviceMemoryMapFile)"
       linker_section_placement_file="$(StudioDir)/targets/Cortex_M/flash_placement.xml"
@@ -71,6 +72,7 @@
     <folder Name="Source Files">
       <configuration Name="Common" filter="c;cpp;cxx;cc;h;s;asm;inc" />
       <folder Name="app" exclude="" filter="" path="app" recurse="Yes" />
+      <folder Name="yss" exclude="" filter="" path="yss" recurse="Yes" />
     </folder>
     <folder Name="System Files">
       <file file_name="$(DeviceVectorsFile)">

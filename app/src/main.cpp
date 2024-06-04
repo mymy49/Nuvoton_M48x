@@ -21,13 +21,13 @@
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-//#include <yss.h>
+#include <yss.h>
 #include <bsp.h>
 
 int main(void)
 {
 	// 운영체체 초기화
-	//initializeYss();
+	initializeYss();
 
 	// 보드 초기화
 	initializeBoard();

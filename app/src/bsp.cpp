@@ -31,11 +31,6 @@ void initializeBoard(void)
 
 extern "C"
 {
-	void SystemInit(void)
-	{
-
-	}
-
 	void SystemCoreClockUpdate(void)
 	{
 
