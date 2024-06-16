@@ -21,12 +21,19 @@
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#ifndef BSP__H_
-#define BSP__H_
+#ifndef DEV_LED__H_
+#define DEV_LED__H_
 
-#include <dev/led.h>
+namespace led
+{
+	void initialize(void) __attribute__((optimize("-O1")));
 
-void initializeBoard(void);
+	void setLedR1(bool on) __attribute__((optimize("-O1")));
+
+	void setLedY1(bool on) __attribute__((optimize("-O1")));
+
+	void setLedG2(bool on) __attribute__((optimize("-O1")));
+}
 
 #endif
 

@@ -26,30 +26,61 @@
 #include <util/runtime.h>
 #include <yss/debug.h>
 
-void thread_test(void)
-{
-	while(1)
-	{
-		thread::yield();
-	}
-}
+void thread_blinkLedR1(void);
+void thread_blinkLedY1(void);
+void thread_blinkLedG2(void);
 
 int main(void)
 {
-	uint64_t lastT, thisT;
-
 	// 운영체체 초기화
 	initializeYss();
 
 	// 보드 초기화
 	initializeBoard();
 
-	thread::add(thread_test, 512);
+	thread::add(thread_blinkLedR1, 512);
+	thread::add(thread_blinkLedG2, 512);
+	thread::add(thread_blinkLedY1, 512);
 	
-	thisT = lastT = runtime::getMsec();
-
 	while(1)
 	{
 		debug_printf("%d\r", (uint32_t)runtime::getMsec());
 	}
 }
+
+void thread_blinkLedR1(void)
+{
+	while(1)
+	{
+		led::setLedR1(true);
+		thread::delay(250);
+
+		led::setLedR1(false);
+		thread::delay(250);
+	}
+}
+
+void thread_blinkLedG2(void)
+{
+	while(1)
+	{
+		led::setLedG2(true);
+		thread::delay(500);
+
+		led::setLedG2(false);
+		thread::delay(500);
+	}
+}
+
+void thread_blinkLedY1(void)
+{
+	while(1)
+	{
+		led::setLedY1(true);
+		thread::delay(1000);
+
+		led::setLedY1(false);
+		thread::delay(1000);
+	}
+}
+
