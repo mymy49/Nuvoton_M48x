@@ -48,14 +48,8 @@ int main(void)
 	
 	thisT = lastT = runtime::getMsec();
 
-	// runtime::getMsec() 함수 오동작 확인용 테스트 코드
 	while(1)
 	{
-		thisT = runtime::getMsec();
-
-		if(thisT < lastT)
-			debug_printf("%d, %d\n", (uint32_t)thisT, (uint32_t)lastT);
-
-		lastT = thisT;
+		debug_printf("%d\r", (uint32_t)runtime::getMsec());
 	}
 }
