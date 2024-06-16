@@ -28,11 +28,3 @@ void initializeBoard(void)
 {
 
 }
-
-extern "C"
-{
-	void SystemCoreClockUpdate(void)
-	{
-
-	}
-}
