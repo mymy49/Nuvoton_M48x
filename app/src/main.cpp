@@ -23,17 +23,39 @@
 
 #include <yss.h>
 #include <bsp.h>
+#include <util/runtime.h>
+#include <yss/debug.h>
+
+void thread_test(void)
+{
+	while(1)
+	{
+		thread::yield();
+	}
+}
 
 int main(void)
 {
+	uint64_t lastT, thisT;
+
 	// 운영체체 초기화
 	initializeYss();
 
 	// 보드 초기화
 	initializeBoard();
 
+	thread::add(thread_test, 512);
+	
+	thisT = lastT = runtime::getMsec();
+
+	// runtime::getMsec() 함수 오동작 확인용 테스트 코드
 	while(1)
 	{
-		//thread::yield();
+		thisT = runtime::getMsec();
+
+		if(thisT < lastT)
+			debug_printf("%d, %d\n", (uint32_t)thisT, (uint32_t)lastT);
+
+		lastT = thisT;
 	}
 }
