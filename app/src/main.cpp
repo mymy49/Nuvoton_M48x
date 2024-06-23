@@ -29,9 +29,13 @@
 void thread_blinkLedR1(void);
 void thread_blinkLedY1(void);
 void thread_blinkLedG2(void);
+void thread_testUart(void);
 
 int main(void)
 {
+	uint32_t count;
+	uint8_t *data;
+
 	// 운영체체 초기화
 	initializeYss();
 
@@ -41,9 +45,21 @@ int main(void)
 	thread::add(thread_blinkLedR1, 512);
 	thread::add(thread_blinkLedG2, 512);
 	thread::add(thread_blinkLedY1, 512);
+	thread::add(thread_testUart, 512);
 	
 	while(1)
 	{
+		count = uart0.getRxCount();
+
+		if(count)
+		{
+			data = (uint8_t*)uart0.getRxBuffer();
+			for(uint32_t i = 0; i < count; i++)
+				debug_printf("%c = 0x%02X\r\n", data[i], data[i]);
+			
+			uart0.releaseRxBuffer(count);
+		}
+
 		debug_printf("%d\r", (uint32_t)runtime::getMsec());
 	}
 }
@@ -81,6 +97,14 @@ void thread_blinkLedY1(void)
 
 		led::setLedY1(false);
 		thread::delay(1000);
+	}
+}
+
+void thread_testUart(void)
+{
+	while(1)
+	{
+		uart0.send("Hello World!!\n\r", sizeof("Hello World!!\n\r"));
 	}
 }
 
