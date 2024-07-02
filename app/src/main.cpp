@@ -25,22 +25,42 @@
 #include <bsp.h>
 #include <util/runtime.h>
 #include <yss/debug.h>
+#include <std_ext/string.h>
 
 void thread_blinkLedR1(void);
 void thread_blinkLedY1(void);
 void thread_blinkLedG2(void);
 void thread_testUart(void);
 
+
+
 int main(void)
 {
 	uint32_t count;
 	uint8_t *data;
+
+	uint8_t sa[32], da[32];
+
+	for(uint32_t i = 0; i < 32; i++)
+	{
+		sa[i] = i;
+		da[i] = 0;
+	}
 
 	// 운영체체 초기화
 	initializeYss();
 
 	// 보드 초기화
 	initializeBoard();
+	
+	// DMA memory to memory Test
+	memcpyd(da, sa, 32);
+
+	memsetd(da, 0xAA, 32);
+
+	memsethwd(da, 0xBBCC, 16);
+
+	memsetwd(da, 0x12345678, 8);
 
 	thread::add(thread_blinkLedR1, 512);
 	thread::add(thread_blinkLedG2, 512);
