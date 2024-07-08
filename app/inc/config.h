@@ -68,11 +68,11 @@
 // SPI 활성화
 #define SPI0_ENABLE			false
 #define SPI1_ENABLE			false
-#define SPI2_ENABLE			false
+#define SPI2_ENABLE			true
 #define SPI3_ENABLE			false
 
 // UART 활성화
-#define UART0_ENABLE		false
+#define UART0_ENABLE		true
 #define UART1_ENABLE		false
 #define UART2_ENABLE		false
 #define UART3_ENABLE		false

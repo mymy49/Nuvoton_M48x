@@ -26,18 +26,27 @@
 #include <util/runtime.h>
 #include <yss/debug.h>
 #include <std_ext/string.h>
+#include <drv/Spi.h>
 
 void thread_blinkLedR1(void);
 void thread_blinkLedY1(void);
 void thread_blinkLedG2(void);
 void thread_testUart(void);
 
+#define BIT8	1
 
+static const Spi::specification_t gConfig =
+{
+	Spi::MODE_MODE1,	//uint8_t mode;
+	20000000,			//uint32_t maxFreq;
+	Spi::BIT_BIT8		//uint8_t bit;
+}; 
 
 int main(void)
 {
 	uint32_t count;
 	uint8_t *data;
+	uint8_t aaa = Spi::BIT_BIT8;
 
 	uint8_t sa[32], da[32];
 
@@ -67,6 +76,9 @@ int main(void)
 	thread::add(thread_blinkLedY1, 512);
 	thread::add(thread_testUart, 512);
 	
+	spi2.setSpecification(gConfig);
+	spi2.enable(true);
+	
 	while(1)
 	{
 		count = uart0.getRxCount();
@@ -81,6 +93,8 @@ int main(void)
 		}
 
 		debug_printf("%d\r", (uint32_t)runtime::getMsec());
+
+		spi2.send((int8_t)0xAA);
 	}
 }
 
