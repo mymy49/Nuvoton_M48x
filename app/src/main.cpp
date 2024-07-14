@@ -43,7 +43,8 @@ static const Spi::specification_t gConfig =
 int main(void)
 {
 	uint32_t count;
-	uint8_t *data, rx;
+	uint8_t *data;
+	error_t result;
 
 	uint8_t sa[32], da[32];
 
@@ -89,9 +90,9 @@ int main(void)
 			uart0.releaseRxBuffer(count);
 		}
 
-		debug_printf("%d, 0x%02x\r", (uint32_t)runtime::getMsec(), rx);
+		debug_printf("%d\r", (uint32_t)runtime::getMsec());
 
-		rx = spi2.exchange((uint8_t)0xAA);
+		result =  spi2.send(sa, 32);
 	}
 }
 
