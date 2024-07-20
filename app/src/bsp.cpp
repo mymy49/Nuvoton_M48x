@@ -24,6 +24,10 @@
 #include <bsp.h>
 #include <yss/instance.h>
 
+Touch_LCD_Shield_for_Arduino_2_8_inch lcd;
+
+Bmp565Buffer brush(10000);
+
 void initializeBoard(void)
 {
 	// LED 초기화
@@ -38,12 +42,31 @@ void initializeBoard(void)
 	uart0.enableInterrupt();
 
 	// SPI2 초기화
-	gpioA.setAsAltFunc(8, Gpio::PA8_SPI2_MOSI);
-	gpioA.setAsAltFunc(9, Gpio::PA9_SPI2_MISO);
-	gpioA.setAsAltFunc(10, Gpio::PA10_SPI2_CLK);
-	gpioA.setAsOutput(11);
+	gpioA.setAsAltFunc(0, Gpio::PA0_SPI0_MOSI);
+	gpioA.setAsAltFunc(1, Gpio::PA1_SPI0_MISO);
+	gpioA.setAsAltFunc(2, Gpio::PA2_SPI0_CLK);
+	gpioA.setAsOutput(3); // CS
+	gpioA.setAsOutput(4); // BL
+	gpioE.setAsOutput(5); // DC
 
-	spi2.enableClock();
-	spi2.initializeAsMain();
-	spi2.enableInterrupt();
+	gpioA.setOutput(4, false);
+	gpioA.setOutput(4, true);
+
+	spi0.enableClock();
+	spi0.initializeAsMain();
+	spi0.enableInterrupt();
+	
+	const Touch_LCD_Shield_for_Arduino_2_8_inch::config_t config =
+	{
+		spi0,			//Spi &peri;
+		{&gpioA, 3},	//pin_t chipSelect;
+		{&gpioE, 5},	//pin_t dataCommand;
+		{0, 0}			//pin_t reset;
+	};
+
+	lcd.setConfig(config);
+	lcd.initialize();
+	lcd.setBmp565Buffer(brush);
+	lcd.setBackgroundColor(0xFF, 0xFF, 0xFF);
+	lcd.clear();
 }

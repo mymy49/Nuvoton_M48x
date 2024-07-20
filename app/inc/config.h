@@ -53,7 +53,7 @@
 
 // ####################### GUI 설정 #######################
 // GUI library Enable (true, false)
-#define USE_GUI				false
+#define USE_GUI				true
 
 // ####################### KEY 설정 #######################
 // 최대 KEY 생성 가능 갯수 설정 (0 ~ ), 0일 경우 기능 꺼짐
@@ -66,9 +66,9 @@
 // 1. TIMER, PWM, CAPTURE는 실제 동일한 장치지만 OS 구조상 별도의 장치로 표현한다. 그러므로 동일한 번호의 TIMER, PWM, CAPTURE는 동시에 활성화 되지 못한다.
 
 // SPI 활성화
-#define SPI0_ENABLE			false
+#define SPI0_ENABLE			true
 #define SPI1_ENABLE			false
-#define SPI2_ENABLE			true
+#define SPI2_ENABLE			false
 #define SPI3_ENABLE			false
 
 // UART 활성화

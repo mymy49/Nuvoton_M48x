@@ -74,9 +74,6 @@ int main(void)
 	thread::add(thread_blinkLedY1, 512);
 	thread::add(thread_testUart, 512);
 	
-	spi2.setSpecification(gConfig);
-	spi2.enable(true);
-	
 	while(1)
 	{
 		count = uart0.getRxCount();
@@ -91,8 +88,6 @@ int main(void)
 		}
 
 		debug_printf("%d\r", (uint32_t)runtime::getMsec());
-
-		result =  spi2.send(sa, 32);
 	}
 }
 

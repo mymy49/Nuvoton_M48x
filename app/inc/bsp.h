@@ -26,6 +26,14 @@
 
 #include <dev/led.h>
 
+#include <mod/spi_tft_lcd/Touch_LCD_Shield_for_Arduino_2_8_inch.h>
+
+#include <gui/Bmp565Buffer.h>
+
+extern Touch_LCD_Shield_for_Arduino_2_8_inch lcd;
+
+extern Bmp565Buffer brush;
+
 void initializeBoard(void);
 
 #endif
