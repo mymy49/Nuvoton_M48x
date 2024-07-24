@@ -1,5 +1,5 @@
 <!DOCTYPE CrossStudio_Project_File>
-<solution Name="Nuvoton_MA48x" target="8" version="2">
+<solution Name="Nuvoton_M48x" target="8" version="2">
   <configuration
     Name="Debug"
     c_preprocessor_definitions="DEBUG"
@@ -25,7 +25,7 @@
   <configuration
     Name="THUMB Release"
     inherited_configurations="THUMB;Release" />
-  <project Name="Nuvoton_MA48x">
+  <project Name="Nuvoton_M48x">
     <configuration
       CMSIS_CORE="Yes"
       Name="Common"
