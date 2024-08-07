@@ -22,12 +22,20 @@ void initializeBoard(void)
 	uart0.enableInterrupt();
 
 	// SPI2 초기화
-	gpioA.setAsAltFunc(8, Gpio::PA8_SPI2_MOSI);
-	gpioA.setAsAltFunc(9, Gpio::PA9_SPI2_MISO);
-	gpioA.setAsAltFunc(10, Gpio::PA10_SPI2_CLK);
-	gpioA.setAsOutput(11);
+	gpioA.setAsAltFunc(0, Gpio::PA0_SPI0_I2S_DO);
+	gpioA.setAsAltFunc(2, Gpio::PA2_SPI0_I2S_BCLK);
+	gpioA.setAsAltFunc(3, Gpio::PA3_SPI0_I2S_LRCLK);
+	gpioB.setAsAltFunc(0, Gpio::PB0_SPI0_I2S_MCLK);
+	
+	I2s::specification_t i2s0Spec = 
+	{
+		I2s::MODE_MAIN_TX,	//mode_t mode;
+		I2s::BIT_16BIT,		//dataBit_t dataBit;
+		I2s::STD_I2S_DATA,	//std_t std;
+		176400				//uint32_t sampleRate;
+	};
 
-	spi2.enableClock();
-	spi2.initializeAsMain();
-	spi2.enableInterrupt();
+	i2s0.enableClock();
+	i2s0.initialize(i2s0Spec);
+	i2s0.enableInterrupt();
 }

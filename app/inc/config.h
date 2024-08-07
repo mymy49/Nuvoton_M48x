@@ -14,7 +14,7 @@
 // ####################### 외부 크리스탈 클럭 주파수 설정 #######################
 // 아래 HSE_CLOCK_FREQ가 정의 되어 있으면 HSE 클럭을 소스로 PLL 설정이 이뤄집니다.
 // 정의되어 있지 않으면 HSI 클럭을 소스로 PLL 설정이 이뤄집니다.
-//#define HSE_CLOCK_FREQ 12000000
+#define HSE_CLOCK_FREQ 12000000
 
 // ####################### 스케줄러 설정 #######################
 // runtime 함수를 지원할 PWM 장치 설정 (RUNTIME_TIM3, 14, 15, 16, 17)
@@ -47,10 +47,16 @@
 // 주의 
 // 1. TIMER, PWM, CAPTURE는 실제 동일한 장치지만 OS 구조상 별도의 장치로 표현한다. 그러므로 동일한 번호의 TIMER, PWM, CAPTURE는 동시에 활성화 되지 못한다.
 
+// I2S 활성화
+#define I2S0_ENABLE			true
+#define I2S1_ENABLE			false
+#define I2S2_ENABLE			false
+#define I2S3_ENABLE			false
+
 // SPI 활성화
 #define SPI0_ENABLE			false
 #define SPI1_ENABLE			false
-#define SPI2_ENABLE			true
+#define SPI2_ENABLE			false
 #define SPI3_ENABLE			false
 
 // UART 활성화
