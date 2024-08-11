@@ -20,6 +20,8 @@ void thread_blinkLedG2(void);
 
 void thread_testUart(void);
 
+int16_t gAudioBuffer[1024];
+
 int main(void)
 {
 	uint32_t count;
@@ -27,6 +29,11 @@ int main(void)
 	error_t result;
 
 	uint8_t sa[32], da[32];
+
+	for(uint32_t i = 0; i < 1024; i++)
+	{
+		gAudioBuffer[i] = i;
+	}
 
 	for(uint32_t i = 0; i < 32; i++)
 	{
@@ -53,6 +60,8 @@ int main(void)
 	thread::add(thread_blinkLedG2, 512);
 	thread::add(thread_blinkLedY1, 512);
 	thread::add(thread_testUart, 512);
+
+	i2s0.transfer(gAudioBuffer, 1024);
 	
 	while(1)
 	{
