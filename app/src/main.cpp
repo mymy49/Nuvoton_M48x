@@ -11,6 +11,7 @@
 #include <yss/debug.h>
 #include <std_ext/string.h>
 #include <drv/Spi.h>
+#include <math.h>
 
 void thread_blinkLedR1(void);
 
@@ -18,28 +19,14 @@ void thread_blinkLedY1(void);
 
 void thread_blinkLedG2(void);
 
-void thread_testUart(void);
-
 int16_t gAudioBuffer[1024];
 
 int main(void)
 {
 	uint32_t count;
-	uint8_t *data;
-	error_t result;
-
-	uint8_t sa[32], da[32];
-
-	for(uint32_t i = 0; i < 1024; i++)
-	{
-		gAudioBuffer[i] = i;
-	}
-
-	for(uint32_t i = 0; i < 32; i++)
-	{
-		sa[i] = i;
-		da[i] = 0;
-	}
+	int16_t pcm = 0;
+	int16_t *audioBuf;
+	float radian = 0;
 
 	// 운영체체 초기화
 	initializeYss();
@@ -47,36 +34,31 @@ int main(void)
 	// 보드 초기화
 	initializeBoard();
 	
-	// DMA memory to memory Test
-	memcpyd(da, sa, 32);
-
-	memsetd(da, 0xAA, 32);
-
-	memsethwd(da, 0xBBCC, 16);
-
-	memsetwd(da, 0x12345678, 8);
+	memsethwd(gAudioBuffer, 0, 1024);
 
 	thread::add(thread_blinkLedR1, 512);
 	thread::add(thread_blinkLedG2, 512);
 	thread::add(thread_blinkLedY1, 512);
-	thread::add(thread_testUart, 512);
 
 	i2s0.transfer(gAudioBuffer, 1024);
 	
 	while(1)
 	{
-		count = uart0.getRxCount();
-
+		count = i2s0.getTxCount();
 		if(count)
 		{
-			data = (uint8_t*)uart0.getRxBuffer();
-			for(uint32_t i = 0; i < count; i++)
-				debug_printf("%c = 0x%02X\r\n", data[i], data[i]);
-			
-			uart0.releaseRxBuffer(count);
-		}
+			audioBuf =  (int16_t*)i2s0.getCurrrentBuffer();
 
-		debug_printf("%d\r", (uint32_t)runtime::getMsec());
+			for(uint32_t i = 0; i < count; i += 2)
+			{
+				pcm = sin(radian) * 32767;
+				audioBuf[i] = pcm;
+				audioBuf[i+1] = pcm;
+				radian += 0.00001f;
+			}
+			
+			i2s0.releaseBuffer(count);
+		}
 	}
 }
 
@@ -113,14 +95,6 @@ void thread_blinkLedY1(void)
 
 		led::setLedY1(false);
 		thread::delay(1000);
-	}
-}
-
-void thread_testUart(void)
-{
-	while(1)
-	{
-		uart0.send("Hello World!!\n\r", sizeof("Hello World!!\n\r"));
 	}
 }
 
