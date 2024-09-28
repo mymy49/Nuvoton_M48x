@@ -10,6 +10,7 @@
 #include <util/runtime.h>
 #include <yss/debug.h>
 #include <std_ext/string.h>
+#include <targets/nuvoton/bitfield_m48x.h>
 
 void thread_blinkLedR1(void);
 
@@ -29,7 +30,8 @@ int main(void)
 	thread::add(thread_blinkLedG2, 512);
 	thread::add(thread_blinkLedY1, 512);
 
-	flash.erasePage(5);
+	flash.erasePage(3);
+	flash.program(3, (uint32_t)0x00000000, 1024);
 
 	while(1)
 	{
