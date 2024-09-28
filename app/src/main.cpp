@@ -10,8 +10,6 @@
 #include <util/runtime.h>
 #include <yss/debug.h>
 #include <std_ext/string.h>
-#include <drv/Spi.h>
-#include <math.h>
 
 void thread_blinkLedR1(void);
 
@@ -19,46 +17,23 @@ void thread_blinkLedY1(void);
 
 void thread_blinkLedG2(void);
 
-int16_t gAudioBuffer[1024];
-
 int main(void)
 {
-	uint32_t count;
-	int16_t pcm = 0;
-	int16_t *audioBuf;
-	float radian = 0;
-
 	// 운영체체 초기화
 	initializeYss();
 
 	// 보드 초기화
 	initializeBoard();
-	
-	memsethwd(gAudioBuffer, 0, 1024);
 
 	thread::add(thread_blinkLedR1, 512);
 	thread::add(thread_blinkLedG2, 512);
 	thread::add(thread_blinkLedY1, 512);
 
-	i2s0.transfer(gAudioBuffer, 1024);
-	
+	flash.erasePage(5);
+
 	while(1)
 	{
-		count = i2s0.getTxCount();
-		if(count)
-		{
-			audioBuf =  (int16_t*)i2s0.getCurrrentBuffer();
-
-			for(uint32_t i = 0; i < count; i += 2)
-			{
-				pcm = sin(radian) * 32767;
-				audioBuf[i] = pcm;
-				audioBuf[i+1] = pcm;
-				radian += 0.00001f;
-			}
-			
-			i2s0.releaseBuffer(count);
-		}
+		thread::yield();
 	}
 }
 
